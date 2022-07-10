@@ -1,6 +1,14 @@
-const Copyright = () => {
+import { FC } from "react";
+
+interface CopyrightProps {
+  className?: string;
+}
+
+const Copyright: FC<CopyrightProps> = ({ className = "" }: CopyrightProps) => {
   return (
-    <div className="flex justify-between w-login-card mt-3 text-sm text-gray-500">
+    <div
+      className={`flex justify-between w-login-card mt-3 text-sm text-gray-500 ${className}`}
+    >
       <span>
         created by{" "}
         <a

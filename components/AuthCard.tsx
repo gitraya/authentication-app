@@ -1,7 +1,12 @@
+import { FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const AuthCard = ({ isLogin = false }: { isLogin?: boolean }) => {
+interface AuthCardProps {
+  isLogin?: boolean;
+}
+
+const AuthCard: FC<AuthCardProps> = ({ isLogin = false }: AuthCardProps) => {
   return (
     <div className="py-10 px-14 w-login-card border rounded-3xl">
       <div className="w-36 mb-7">
