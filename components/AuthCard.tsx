@@ -29,7 +29,7 @@ const AuthCard: FC<AuthCardProps> = ({ isLogin = false }: AuthCardProps) => {
       )}
       <div className="relative mb-4">
         <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-          <span className="material-symbols-rounded input text-xl text-gray-400">
+          <span className="material-symbols-rounded text-xl text-gray-400">
             mail
           </span>
         </div>
@@ -42,7 +42,7 @@ const AuthCard: FC<AuthCardProps> = ({ isLogin = false }: AuthCardProps) => {
       </div>
       <div className="relative mb-6">
         <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-          <span className="material-symbols-rounded input text-xl text-gray-400">
+          <span className="material-symbols-rounded text-xl text-gray-400">
             lock
           </span>
         </div>

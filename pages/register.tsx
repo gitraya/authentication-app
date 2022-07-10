@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import AuthCard from "../components/AuthCard";
@@ -5,7 +6,7 @@ import Copyright from "../components/Copyright";
 
 const Register: NextPage = () => {
   return (
-    <div>
+    <Fragment>
       <Head>
         <title>Register - Authentication App</title>
       </Head>
@@ -13,7 +14,7 @@ const Register: NextPage = () => {
         <AuthCard />
         <Copyright />
       </main>
-    </div>
+    </Fragment>
   );
 };
 

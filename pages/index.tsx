@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Copyright from "../components/Copyright";
@@ -9,7 +10,7 @@ const Home: NextPage = () => {
   // }
 
   return (
-    <div className="h-screen">
+    <Fragment>
       <Head>
         <title>Authentication App</title>
       </Head>
@@ -60,7 +61,7 @@ const Home: NextPage = () => {
         </div>
         <Copyright className="w-3/5" />
       </main>
-    </div>
+    </Fragment>
   );
 };
 
