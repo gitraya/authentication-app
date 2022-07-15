@@ -8,7 +8,7 @@ const Login: NextPage = () => {
   return (
     <Fragment>
       <Head>
-        <title>Login - Authentication App</title>
+        <title>Authentication App - Login</title>
       </Head>
       <main className="flex flex-col min-h-screen items-center justify-center">
         <AuthCard isLogin />

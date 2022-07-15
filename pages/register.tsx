@@ -8,7 +8,7 @@ const Register: NextPage = () => {
   return (
     <Fragment>
       <Head>
-        <title>Register - Authentication App</title>
+        <title>Authentication App - Register</title>
       </Head>
       <main className="flex flex-col min-h-screen items-center justify-center">
         <AuthCard />
