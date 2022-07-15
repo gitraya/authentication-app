@@ -8,7 +8,7 @@ interface AuthCardProps {
 
 const AuthCard: FC<AuthCardProps> = ({ isLogin = false }: AuthCardProps) => {
   return (
-    <div className="py-10 px-14 w-login-card border rounded-3xl">
+    <form className="py-10 px-14 w-login-card border rounded-3xl">
       <div className="w-36 mb-7">
         <Image
           src="/devchallenges.svg"
@@ -91,7 +91,7 @@ const AuthCard: FC<AuthCardProps> = ({ isLogin = false }: AuthCardProps) => {
           </Link>
         </span>
       </div>
-    </div>
+    </form>
   );
 };
 
