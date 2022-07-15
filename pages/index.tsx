@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Copyright from "../components/Copyright";
 import Navbar from "../components/Navbar";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   // if (typeof window !== "undefined") {
@@ -31,9 +32,11 @@ const Home: NextPage = () => {
                 Some info may be visible to other people
               </p>
             </div>
-            <button className="text-gray-500 bg-white border border-gray-500 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-xl text-sm px-8 py-2">
-              Edit
-            </button>
+            <Link href="/edit" passHref>
+              <button className="text-gray-500 bg-white border border-gray-500 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-xl text-sm px-8 py-2">
+                Edit
+              </button>
+            </Link>
           </div>
           {["photo", "name", "bio", "phone", "email", "password"].map(
             (provider) => (
