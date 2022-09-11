@@ -1,12 +1,12 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { FieldValues, useForm } from "react-hook-form";
 import Alert from "./Alert";
 import { setNotification } from "../reducers/notification";
+import { loginUser } from "../reducers/user";
 
 interface AuthCardProps {
   isLogin?: boolean;
@@ -26,7 +26,15 @@ const AuthCard: FC<AuthCardProps> = ({ isLogin = false }: AuthCardProps) => {
     setLoading(true);
 
     try {
-      await axios.post(`/api/auth/${isLogin ? "login" : "register"}`, values);
+      if (isLogin) {
+        await dispatch(
+          loginUser({ email: values.email, password: values.password })
+        );
+      } else {
+        await dispatch(
+          registerUser({ email: values.email, password: values.password })
+        );
+      }
 
       dispatch(
         setNotification({

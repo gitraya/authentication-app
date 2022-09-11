@@ -1,7 +1,13 @@
 import { Fragment, FC } from "react";
 import { Menu, Transition } from "@headlessui/react";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../reducers/user";
+import Link from "next/link";
 
 const Dropdown: FC = () => {
+  const dispatch = useDispatch();
+  const logout = () => dispatch(logoutUser());
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       {({ open }) => (
@@ -25,15 +31,14 @@ const Dropdown: FC = () => {
             <Menu.Items className="z-20 origin-top-right absolute right-0 mt-5 bg-white divide-y divide-gray-200 rounded-xl border shadow w-44 h-auto focus:outline-none">
               <div className="py-4 px-3 text-sm text-gray-700">
                 <Menu.Item>
-                  <a
-                    href="#"
-                    className="rounded-lg px-4 py-2 hover:bg-gray-100 flex items-center"
-                  >
-                    <span className="material-symbols-rounded mr-3 text-xl">
-                      account_circle
-                    </span>
-                    My Profile
-                  </a>
+                  <Link href="/" passHref>
+                    <a className="rounded-lg px-4 py-2 hover:bg-gray-100 flex items-center">
+                      <span className="material-symbols-rounded mr-3 text-xl">
+                        account_circle
+                      </span>
+                      My Profile
+                    </a>
+                  </Link>
                 </Menu.Item>
                 <Menu.Item>
                   <a
@@ -49,15 +54,15 @@ const Dropdown: FC = () => {
               </div>
               <div className="py-4 px-3">
                 <Menu.Item>
-                  <a
-                    href="#"
+                  <button
+                    onClick={logout}
                     className="rounded-lg px-4 py-2 text-sm text-red-500 hover:bg-gray-100 flex items-center"
                   >
                     <span className="material-symbols-rounded mr-3 text-xl">
                       logout
                     </span>
                     Logout
-                  </a>
+                  </button>
                 </Menu.Item>
               </div>
             </Menu.Items>

@@ -42,7 +42,7 @@ const post = async (req: NextApiRequest, res: NextApiResponse) => {
           60 * 60 * 24 * 7
         };`
       )
-      .redirect("/");
+      .json(user);
   } catch (error: any) {
     errorHandler(error, res);
   }

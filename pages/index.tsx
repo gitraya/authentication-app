@@ -4,8 +4,11 @@ import Head from "next/head";
 import Link from "next/link";
 import Copyright from "../components/Copyright";
 import Navbar from "../components/Navbar";
+import { useSelector } from "react-redux";
 
 const Home: NextPage = () => {
+  const user = useSelector((state: any) => state.user);
+
   return (
     <Fragment>
       <Head>
@@ -51,7 +54,7 @@ const Home: NextPage = () => {
                   </div>
                 ) : (
                   <span className="text-lg truncate w-full">
-                    I am a software developer and a big fan of devchallenges...
+                    {user[provider] || "Not set"}
                   </span>
                 )}
               </div>

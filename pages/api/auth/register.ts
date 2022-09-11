@@ -24,12 +24,10 @@ const post = async (req: NextApiRequest, res: NextApiResponse) => {
     const passwordPattern =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordPattern.test(password)) {
-      return res
-        .status(400)
-        .json({
-          error:
-            "Password must contain at least one lowercase letter, one uppercase letter, one number and one special character",
-        });
+      return res.status(400).json({
+        error:
+          "Password must contain at least one lowercase letter, one uppercase letter, one number and one special character",
+      });
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
@@ -49,7 +47,7 @@ const post = async (req: NextApiRequest, res: NextApiResponse) => {
           60 * 60 * 24 * 7
         };`
       )
-      .redirect("/edit");
+      .json(user);
   } catch (error: any) {
     errorHandler(error, res);
   }

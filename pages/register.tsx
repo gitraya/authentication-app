@@ -1,10 +1,18 @@
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../reducers/user";
 import AuthCard from "../components/AuthCard";
 import Copyright from "../components/Copyright";
 
 const Register: NextPage = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(logoutUser());
+  }, []);
+
   return (
     <Fragment>
       <Head>

@@ -3,4 +3,9 @@ interface TokenPayload {
   email: string;
 }
 
-export type { TokenPayload };
+interface IAuth {
+  email: string;
+  password: string;
+}
+
+export type { TokenPayload, IAuth };

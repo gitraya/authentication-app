@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { getCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
+import userService from "../services/users";
+import authService from "../services/auth";
+import { IAuth } from "../types/token";
 
 const userSlice = createSlice({
   name: "user",
@@ -13,44 +15,66 @@ const userSlice = createSlice({
 export const { setUser } = userSlice.actions;
 
 export const initializeLoginUser = () => {
-  return async (dispatch: any) => {
+  return async (dispatch: any, getState: any) => {
     const token = getCookie("token");
 
     if (token && typeof token === "string") {
       const decodedJwt = JSON.parse(atob(token.split(".")[1]));
 
       if (decodedJwt.exp * 1000 < Date.now()) {
-        dispatch(logoutUser());
-      } else {
-        const user = await axios.get(`/users/${decodedJwt.id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        return dispatch(logoutUser());
+      }
 
-        if (user.data) {
-          dispatch(setUser(user.data));
+      if (getState()?.user) {
+        return;
+      }
+
+      try {
+        const user = await userService.get(decodedJwt.id);
+
+        if (!user) {
+          return dispatch(logoutUser());
         }
+
+        dispatch(setUser(user));
+      } catch (error) {
+        dispatch(logoutUser());
       }
     }
   };
 };
 
-export const loginUser = ({ email, password }) => {
+export const registerUser = (user: IAuth) => {
   return async (dispatch: any) => {
-    const user = await loginService.login({
-      email,
-      password,
-    });
+    try {
+      const response = await authService.register(user);
 
-    window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-    blogService.setToken(user.token);
-    dispatch(setUser(user));
-    return user;
+      dispatch(setUser(response));
+    } catch (error) {
+      throw error;
+    }
+  };
+};
+
+export const loginUser = (user: IAuth) => {
+  return async (dispatch: any) => {
+    try {
+      const response = await authService.login(user);
+
+      if (!response) {
+        return dispatch(logoutUser());
+      }
+
+      dispatch(setUser(response));
+    } catch (error) {
+      throw error;
+    }
   };
 };
 
 export const logoutUser = () => {
-  return (dispatch) => {
-    window.localStorage.removeItem("loggedBlogappUser");
+  return (dispatch: any) => {
+    deleteCookie("token");
     dispatch(setUser(null));
   };
 };
