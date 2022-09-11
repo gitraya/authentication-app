@@ -1,14 +1,64 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { FieldValues, useForm } from "react-hook-form";
+import Alert from "./Alert";
+import { setNotification } from "../reducers/notification";
 
 interface AuthCardProps {
   isLogin?: boolean;
 }
 
 const AuthCard: FC<AuthCardProps> = ({ isLogin = false }: AuthCardProps) => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (values: FieldValues) => {
+    setLoading(true);
+
+    try {
+      await axios.post(`/api/auth/${isLogin ? "login" : "register"}`, values);
+
+      dispatch(
+        setNotification({
+          type: "success",
+          message: isLogin ? "Login successful" : "Registration successful",
+        })
+      );
+
+      setTimeout(() => {
+        if (isLogin) {
+          router.push("/");
+        } else {
+          router.push("/edit");
+        }
+      }, 2000);
+    } catch (error: any) {
+      dispatch(
+        setNotification({
+          message: error.response.data.error,
+          type: "danger",
+        })
+      );
+    }
+
+    setLoading(false);
+  };
+
   return (
-    <form className="py-10 px-14 w-login-card border rounded-3xl">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="py-10 px-14 w-login-card border rounded-3xl"
+    >
       <div className="w-36 mb-7">
         <Image
           src="/devchallenges.svg"
@@ -27,33 +77,84 @@ const AuthCard: FC<AuthCardProps> = ({ isLogin = false }: AuthCardProps) => {
           multiple paths for you to choose
         </p>
       )}
+      <Alert />
       <div className="relative mb-4">
-        <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-          <span className="material-symbols-rounded text-xl text-gray-400">
-            mail
-          </span>
+        <div className="relative">
+          <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+            <span className="material-symbols-rounded text-xl text-gray-400">
+              mail
+            </span>
+          </div>
+          <input
+            {...register("email", {
+              required: { value: true, message: "Email is required" },
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                message: "Invalid email address",
+              },
+            })}
+            type="text"
+            id="input-group-1"
+            className={`${
+              errors?.email
+                ? "bg-red-50 border border-red-300"
+                : "bg-gray-50 border-gray-300"
+            } focus:ring-blue-500 focus:border-blue-500 border text-gray-900 text-sm rounded-lg block w-full pl-10 p-2.5`}
+            placeholder="Email"
+          />
         </div>
-        <input
-          type="text"
-          id="input-group-1"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
-          placeholder="Email"
-        />
+        {errors?.email && (
+          <small className="text-red-500">
+            {errors?.email?.message?.toString() || ""}
+          </small>
+        )}
       </div>
       <div className="relative mb-6">
-        <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-          <span className="material-symbols-rounded text-xl text-gray-400">
-            lock
-          </span>
+        <div className="relative">
+          <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+            <span className="material-symbols-rounded text-xl text-gray-400">
+              lock
+            </span>
+          </div>
+          <input
+            {...register("password", {
+              required: { value: true, message: "Password is required" },
+              minLength: {
+                value: 8,
+                message: "Password must be at least 8 characters",
+              },
+              pattern: {
+                value:
+                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                message:
+                  "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
+              },
+            })}
+            type="text"
+            id="input-group-1"
+            className={`${
+              errors?.password
+                ? "bg-red-50 border border-red-300"
+                : "bg-gray-50 border-gray-300"
+            } focus:ring-blue-500 focus:border-blue-500 border text-gray-900 text-sm rounded-lg block w-full pl-10 p-2.5`}
+            placeholder="Password"
+          />
         </div>
-        <input
-          type="text"
-          id="input-group-1"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
-          placeholder="Password"
-        />
+        {errors?.password && (
+          <small className="text-red-500">
+            {errors?.password?.message?.toString() || ""}
+          </small>
+        )}
       </div>
-      <button className="w-full text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none mb-8">
+      <button
+        type="submit"
+        disabled={loading}
+        className={`${
+          loading
+            ? "bg-blue-200 hover:bg-blue-400 "
+            : "bg-blue-600 hover:bg-blue-800"
+        } w-full text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none mb-8`}
+      >
         {isLogin ? "Login" : "Start coding now"}
       </button>
 

@@ -7,9 +7,6 @@ import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   const router = useRouter();
-  // if (typeof window !== "undefined") {
-  //   window.location.href = "http://localhost:3000/register";
-  // }
 
   return (
     <Fragment>

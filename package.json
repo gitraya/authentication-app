@@ -1,5 +1,5 @@
 {
-  "name": "cat-wiki",
+  "name": "authentication-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,14 +10,21 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.6.6",
+    "@reduxjs/toolkit": "^1.8.5",
+    "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
+    "cookies-next": "^2.1.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.1",
     "mongoose-unique-validator": "^3.1.0",
     "next": "12.2.0",
     "passport": "^0.6.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.34.0",
+    "react-query": "^3.39.2",
+    "react-redux": "^8.0.2",
+    "redux-thunk": "^2.4.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",

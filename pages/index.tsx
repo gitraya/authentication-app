@@ -1,15 +1,11 @@
 import { Fragment } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import Copyright from "../components/Copyright";
 import Navbar from "../components/Navbar";
-import Link from "next/link";
 
 const Home: NextPage = () => {
-  // if (typeof window !== "undefined") {
-  //   window.location.href = "http://localhost:3000/register";
-  // }
-
   return (
     <Fragment>
       <Head>

@@ -66,4 +66,4 @@ userSchema.set("toJSON", {
 
 userSchema.plugin(uniqueValidator);
 
-export default mongoose.model("User", userSchema);
+export default mongoose.models.User || mongoose.model("User", userSchema);
