@@ -1,10 +1,16 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiResponse } from "next";
 import { connectMongo } from "../../../libs/mongo";
 import User from "../../../models/user";
 import errorHandler from "../../../utils/errors";
+import { tokenExtractor, userExtractor } from "../../../utils/auth";
+import { RequestExtends } from "../../../types/api";
 
-const get = async (req: NextApiRequest, res: NextApiResponse) => {
+const get = async (req: RequestExtends, res: NextApiResponse) => {
   try {
+    if (!req.user?._id) {
+      return res.status(401).json({ error: "Not authorized!" });
+    }
+
     await connectMongo();
     const users = await User.find({});
     return res.status(200).json(users);
@@ -13,7 +19,10 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-const usersHandler = (req: NextApiRequest, res: NextApiResponse) => {
+const usersHandler = async (req: RequestExtends, res: NextApiResponse) => {
+  tokenExtractor(req, res);
+  await userExtractor(req, res);
+
   switch (req.method) {
     case "GET":
       return get(req, res);

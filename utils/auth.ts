@@ -1,15 +1,13 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { User as UserType } from "../types/user";
 import User from "../models/user";
 import { TokenPayload } from "../types/token";
+import { RequestExtends } from "../types/api";
 
-interface RequestExtends extends NextApiRequest {
-  token?: string;
-  user?: UserType;
-}
-
-const tokenExtractor = (request: RequestExtends, response: NextApiResponse) => {
+const tokenExtractor: any = (
+  request: RequestExtends,
+  response: NextApiResponse
+) => {
   const authorization = request.headers.authorization || "";
 
   if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
@@ -28,10 +26,6 @@ const userExtractor = async (
     );
 
     if (typeof decodedToken === "object") {
-      if (!decodedToken.id) {
-        return response.status(401).json({ error: "token missing or invalid" });
-      }
-
       request.user = (await User.findById(decodedToken.id)) || undefined;
     }
   }
