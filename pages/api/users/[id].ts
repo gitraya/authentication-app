@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import type { NextApiResponse } from "next";
 import { connectMongo } from "../../../libs/mongo";
 import User from "../../../models/user";
@@ -18,6 +19,28 @@ const put = async (req: RequestExtends, res: NextApiResponse) => {
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
+    }
+
+    if (req.body.password) {
+      const password = req.body.password as string;
+      delete req.body.password;
+      const passwordPattern =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (password.length < 6) {
+        return res
+          .status(400)
+          .json({ error: "Password must be at least 6 characters" });
+      }
+
+      if (!passwordPattern.test(password)) {
+        return res.status(400).json({
+          error:
+            "Password must contain at least one lowercase letter, one uppercase letter, one number and one special character",
+        });
+      }
+
+      const passwordHash = await bcrypt.hash(password, 10);
+      req.body.passwordHash = passwordHash;
     }
 
     user = await User.findByIdAndUpdate(id, req.body, {

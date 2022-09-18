@@ -54,7 +54,9 @@ const Home: NextPage = () => {
                   </div>
                 ) : (
                   <span className="text-lg truncate w-full">
-                    {user[provider] || "Not set"}
+                    {provider === "password"
+                      ? "********"
+                      : user[provider] || "-"}
                   </span>
                 )}
               </div>

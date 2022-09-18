@@ -79,4 +79,16 @@ export const logoutUser = () => {
   };
 };
 
+export const updateUser = (id: string, user: any) => {
+  return async (dispatch: any) => {
+    try {
+      const response = await userService.update(id, user);
+
+      dispatch(setUser(response));
+    } catch (error) {
+      throw error;
+    }
+  };
+};
+
 export default userSlice.reducer;

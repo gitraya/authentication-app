@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { FieldValues, useForm } from "react-hook-form";
 import Alert from "./Alert";
 import { setNotification } from "../reducers/notification";
-import { loginUser } from "../reducers/user";
+import { loginUser, registerUser } from "../reducers/user";
 
 interface AuthCardProps {
   isLogin?: boolean;
@@ -53,7 +53,7 @@ const AuthCard: FC<AuthCardProps> = ({ isLogin = false }: AuthCardProps) => {
     } catch (error: any) {
       dispatch(
         setNotification({
-          message: error.response.data.error,
+          message: error?.response?.data?.error || "Something went wrong",
           type: "danger",
         })
       );

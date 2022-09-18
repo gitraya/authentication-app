@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { Notification } from "../types/notification";
 let timeoutId: any = 0;
 
-const notificationSlice = createSlice({
+const notificationSlice: any = createSlice({
   name: "notification",
   initialState: null,
   reducers: {
