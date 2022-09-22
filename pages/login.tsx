@@ -1,13 +1,13 @@
 import { Fragment, useEffect } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useDispatch } from "react-redux";
 import { logoutUser } from "../reducers/user";
+import { useAppDispatch } from "../hooks/redux";
 import AuthCard from "../components/AuthCard";
 import Copyright from "../components/Copyright";
 
 const Login: NextPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(logoutUser());

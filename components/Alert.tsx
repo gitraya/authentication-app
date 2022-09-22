@@ -1,9 +1,10 @@
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../hooks/redux";
+import { RootState } from "../reducers";
 import { Notification } from "../types/notification";
 
 const Alert = () => {
-  const notification: Notification = useSelector(
-    (state: any) => state.notification
+  const notification: Notification = useAppSelector(
+    (state: RootState) => state.notification
   );
 
   if (!notification?.message) return null;

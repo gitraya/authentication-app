@@ -2,12 +2,13 @@ import { Fragment } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { useAppSelector } from "../hooks/redux";
+import { RootState } from "../reducers";
 import Copyright from "../components/Copyright";
 import Navbar from "../components/Navbar";
-import { useSelector } from "react-redux";
 
 const Home: NextPage = () => {
-  const user = useSelector((state: any) => state.user);
+  const user = useAppSelector((state: RootState) => state.user);
 
   return (
     <Fragment>

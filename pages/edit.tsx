@@ -1,16 +1,16 @@
 import { Fragment } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { setNotification } from "../reducers/notification";
 import { updateUser } from "../reducers/user";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import Head from "next/head";
 import Copyright from "../components/Copyright";
 import Navbar from "../components/Navbar";
 import Alert from "../components/Alert";
 
-const UserFields: any = [
+const UserFields: any[] = [
   {
     name: "name",
     validation: {
@@ -69,12 +69,12 @@ const Edit: NextPage = () => {
     formState: { errors },
   } = useForm();
   const router = useRouter();
-  const dispatch = useDispatch();
-  const user = useSelector((state: any) => state.user);
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state: any) => state.user);
 
   const onSubmit = async (values: any) => {
     try {
-      const userValues = {};
+      const userValues: any = {};
 
       for (const [key, value] of Object.entries(values)) {
         if (value) userValues[key] = value;

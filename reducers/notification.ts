@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { ActionCreator, AnyAction, createSlice } from "@reduxjs/toolkit";
+import { AppDispatch } from ".";
 import { Notification } from "../types/notification";
 let timeoutId: any = 0;
 
@@ -13,11 +14,11 @@ const notificationSlice: any = createSlice({
 
 export const { addNotification, clearNotification } = notificationSlice.actions;
 
-export const setNotification = (
+export const setNotification: ActionCreator<AnyAction> = (
   notification: Notification,
   timePerSecond: number = 5
 ) => {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     clearTimeout(timeoutId);
     dispatch(addNotification(notification));
     timeoutId = setTimeout(

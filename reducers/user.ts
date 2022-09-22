@@ -1,8 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { ActionCreator, createSlice, AnyAction } from "@reduxjs/toolkit";
 import { deleteCookie, getCookie } from "cookies-next";
 import userService from "../services/users";
 import authService from "../services/auth";
 import { IAuth } from "../types/token";
+import { AppDispatch, RootState } from ".";
 
 const userSlice = createSlice({
   name: "user",
@@ -14,8 +15,8 @@ const userSlice = createSlice({
 
 export const { setUser } = userSlice.actions;
 
-export const initializeLoginUser = () => {
-  return async (dispatch: any, getState: any) => {
+export const initializeLoginUser: ActionCreator<AnyAction> = () => {
+  return async (dispatch: AppDispatch, getState: RootState) => {
     const token = getCookie("token");
 
     if (token && typeof token === "string") {
@@ -44,8 +45,8 @@ export const initializeLoginUser = () => {
   };
 };
 
-export const registerUser = (user: IAuth) => {
-  return async (dispatch: any) => {
+export const registerUser: ActionCreator<AnyAction> = (user: IAuth) => {
+  return async (dispatch: AppDispatch) => {
     try {
       const response = await authService.register(user);
 
@@ -56,8 +57,8 @@ export const registerUser = (user: IAuth) => {
   };
 };
 
-export const loginUser = (user: IAuth) => {
-  return async (dispatch: any) => {
+export const loginUser: ActionCreator<AnyAction> = (user: IAuth) => {
+  return async (dispatch: AppDispatch) => {
     try {
       const response = await authService.login(user);
 
@@ -72,15 +73,15 @@ export const loginUser = (user: IAuth) => {
   };
 };
 
-export const logoutUser = () => {
-  return (dispatch: any) => {
+export const logoutUser: ActionCreator<AnyAction> = () => {
+  return (dispatch: AppDispatch) => {
     deleteCookie("token");
     dispatch(setUser(null));
   };
 };
 
-export const updateUser = (id: string, user: any) => {
-  return async (dispatch: any) => {
+export const updateUser: ActionCreator<AnyAction> = (id: string, user: any) => {
+  return async (dispatch: AppDispatch) => {
     try {
       const response = await userService.update(id, user);
 

@@ -2,11 +2,11 @@ import { FC, useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
 import { FieldValues, useForm } from "react-hook-form";
-import Alert from "./Alert";
 import { setNotification } from "../reducers/notification";
 import { loginUser, registerUser } from "../reducers/user";
+import { useAppDispatch } from "../hooks/redux";
+import Alert from "./Alert";
 
 interface AuthCardProps {
   isLogin?: boolean;
@@ -14,8 +14,8 @@ interface AuthCardProps {
 
 const AuthCard: FC<AuthCardProps> = ({ isLogin = false }: AuthCardProps) => {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,

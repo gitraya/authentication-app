@@ -1,11 +1,11 @@
 import { Fragment, FC } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { useDispatch } from "react-redux";
-import { logoutUser } from "../reducers/user";
 import Link from "next/link";
+import { useAppDispatch } from "../hooks/redux";
+import { logoutUser } from "../reducers/user";
 
 const Dropdown: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const logout = () => dispatch(logoutUser());
 
   return (
