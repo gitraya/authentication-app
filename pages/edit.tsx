@@ -1,66 +1,18 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import { FaUserAlt } from "react-icons/fa";
+import Image from "next/image";
+import Head from "next/head";
 import { setNotification } from "../reducers/notification";
 import { updateUser } from "../reducers/user";
+import { RootState } from "../reducers";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import Head from "next/head";
+import { UserFields } from "../utils/configs";
 import Copyright from "../components/Copyright";
 import Navbar from "../components/Navbar";
 import Alert from "../components/Alert";
-
-const UserFields: any[] = [
-  {
-    name: "name",
-    validation: {
-      required: { value: true, message: "Name is required" },
-      minLength: { value: 3, message: "Name must be at least 3 characters" },
-      maxLength: { value: 20, message: "Name must be at most 20 characters" },
-    },
-  },
-  {
-    name: "bio",
-    validation: {
-      minLength: { value: 3, message: "Bio must be at least 3 characters" },
-      maxLength: { value: 100, message: "Bio must be at most 100 characters" },
-    },
-  },
-  {
-    name: "phone",
-    validation: {
-      minLength: { value: 10, message: "Phone must be at least 10 characters" },
-      maxLength: { value: 20, message: "Phone must be at most 20 characters" },
-      pattern: { value: /^\d+$/, message: "Phone must be a number" },
-    },
-  },
-  {
-    name: "email",
-    validation: {
-      required: { value: true, message: "Email is required" },
-      pattern: {
-        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-        message: "Invalid email address",
-      },
-    },
-  },
-  {
-    name: "password",
-    validation: {
-      required: { value: true, message: "Password is required" },
-      minLength: {
-        value: 8,
-        message: "Password must be at least 8 characters",
-      },
-      pattern: {
-        value:
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        message:
-          "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
-      },
-    },
-  },
-];
 
 const Edit: NextPage = () => {
   const {
@@ -70,14 +22,24 @@ const Edit: NextPage = () => {
   } = useForm();
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state: any) => state.user);
+  const user = useAppSelector((state: RootState) => state.user);
+  const [currentImage, setCurrentImage] = useState(user.photoUrl);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onSubmit = async (values: any) => {
+    setLoading(true);
+
     try {
       const userValues: any = {};
 
       for (const [key, value] of Object.entries(values)) {
         if (value) userValues[key] = value;
+      }
+
+      if (userValues?.photo[0]) {
+        userValues.photo = currentImage;
+      } else {
+        delete userValues.photo;
       }
 
       await dispatch(updateUser(user.id, userValues));
@@ -95,6 +57,16 @@ const Edit: NextPage = () => {
           message: error.message,
         })
       );
+    }
+
+    setLoading(false);
+  };
+
+  const onImageChange = (event: any) => {
+    if (event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e) => setCurrentImage(e.target?.result);
+      reader.readAsDataURL(event.target.files[0]);
     }
   };
 
@@ -123,15 +95,35 @@ const Edit: NextPage = () => {
               </p>
             </div>
             <form className="w-2/3" onSubmit={handleSubmit(onSubmit)}>
-              <button
-                type="button"
-                className="flex py-3 font-medium items-center gap-7"
+              <label
+                htmlFor="photo"
+                className="flex py-3 font-medium items-center gap-7 cursor-pointer"
               >
-                <div className="bg-black w-16 h-16 rounded-lg"></div>
+                {currentImage ? (
+                  <Image
+                    src={currentImage}
+                    alt="User Profile"
+                    width="64"
+                    height="64"
+                    layout="intrinsic"
+                    className="rounded-lg object-center object-cover"
+                  />
+                ) : (
+                  <div className="bg-gray-700 w-16 h-16 rounded-lg flex justify-center items-center">
+                    <FaUserAlt className="w-10 h-10 text-white" />
+                  </div>
+                )}
                 <h3 className="uppercase text-xs text-gray-400">
                   change photo
                 </h3>
-              </button>
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="photo"
+                  className="hidden"
+                  {...register("photo", { onChange: onImageChange })}
+                />
+              </label>
               {UserFields.map((field: any) => (
                 <div
                   key={field.name}
@@ -163,7 +155,12 @@ const Edit: NextPage = () => {
                 </div>
               ))}
               <Alert />
-              <button className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none my-3">
+              <button
+                disabled={loading}
+                className={`${
+                  loading ? "bg-blue-800" : "bg-blue-600 hover:bg-blue-800"
+                } text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none my-3`}
+              >
                 Save
               </button>
             </form>

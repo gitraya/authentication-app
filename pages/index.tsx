@@ -2,6 +2,8 @@ import { Fragment } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
+import { FaUserAlt } from "react-icons/fa";
 import { useAppSelector } from "../hooks/redux";
 import { RootState } from "../reducers";
 import Copyright from "../components/Copyright";
@@ -51,7 +53,20 @@ const Home: NextPage = () => {
                 </h3>
                 {provider === "photo" ? (
                   <div className="w-full">
-                    <div className="bg-black w-16 h-16 rounded-lg"></div>
+                    {user?.photoUrl ? (
+                      <Image
+                        src={user.photoUrl}
+                        alt="User Profile"
+                        width="64"
+                        height="64"
+                        layout="intrinsic"
+                        className="rounded-lg object-center object-cover"
+                      />
+                    ) : (
+                      <div className="bg-gray-700 w-16 h-16 rounded-lg flex justify-center items-center">
+                        <FaUserAlt className="w-10 h-10 text-white" />
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <span className="text-lg truncate w-full">

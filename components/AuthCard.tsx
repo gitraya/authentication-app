@@ -37,10 +37,13 @@ const AuthCard: FC<AuthCardProps> = ({ isLogin = false }: AuthCardProps) => {
       }
 
       dispatch(
-        setNotification({
-          type: "success",
-          message: isLogin ? "Login successful" : "Registration successful",
-        })
+        setNotification(
+          {
+            type: "success",
+            message: isLogin ? "Login successful" : "Registration successful",
+          },
+          2
+        )
       );
 
       setTimeout(() => {

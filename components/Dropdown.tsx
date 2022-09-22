@@ -1,10 +1,14 @@
 import { Fragment, FC } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import Link from "next/link";
-import { useAppDispatch } from "../hooks/redux";
+import Image from "next/image";
+import { FaUserAlt } from "react-icons/fa";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { logoutUser } from "../reducers/user";
+import { RootState } from "../reducers";
 
 const Dropdown: FC = () => {
+  const user = useAppSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   const logout = () => dispatch(logoutUser());
 
@@ -13,8 +17,23 @@ const Dropdown: FC = () => {
       {({ open }) => (
         <Fragment>
           <Menu.Button className="flex items-center gap-3">
-            <div className="bg-black w-8 h-8 rounded-md"></div>
-            <span className="text-xs font-bold">Raya</span>
+            {user?.photoUrl ? (
+              <Image
+                src={user.photoUrl}
+                alt="User Profile"
+                width="32"
+                height="32"
+                layout="intrinsic"
+                className="rounded-lg object-center object-cover"
+              />
+            ) : (
+              <div className="bg-gray-700 w-8 h-8 rounded-md flex justify-center items-center">
+                <FaUserAlt className="w-5 h-5 text-white" />
+              </div>
+            )}
+            <span className="text-xs font-bold">
+              {user?.name || user?.email}
+            </span>
             <span className="material-symbols-rounded">
               arrow_drop_{open ? "up" : "down"}
             </span>

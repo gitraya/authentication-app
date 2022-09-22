@@ -5,6 +5,7 @@ import User from "../../../models/user";
 import { RequestExtends } from "../../../types/api";
 import { tokenExtractor, userExtractor } from "../../../utils/auth";
 import errorHandler from "../../../utils/errors";
+import { uploadImage } from "../../../services/cloudinary";
 
 const put = async (req: RequestExtends, res: NextApiResponse) => {
   try {
@@ -41,6 +42,12 @@ const put = async (req: RequestExtends, res: NextApiResponse) => {
 
       const passwordHash = await bcrypt.hash(password, 10);
       req.body.passwordHash = passwordHash;
+    }
+
+    if (req.body.photo) {
+      const { secure_url } = await uploadImage(req.body.photo, user.email);
+      delete req.body.photo;
+      req.body.photoUrl = secure_url;
     }
 
     user = await User.findByIdAndUpdate(id, req.body, {

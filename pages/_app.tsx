@@ -35,7 +35,7 @@ const PrivateRoute = ({ protectedRoutes, children }: PrivateRouteProps) => {
 
   useEffect(() => {
     if (!isLoading && !user && pathIsProtected) {
-      router.push("/login");
+      router.push("/register");
     }
   }, [isLoading, user, pathIsProtected]);
 
