@@ -63,7 +63,9 @@ const Edit: NextPage = () => {
   };
 
   const onImageChange = (event: any) => {
-    if (event.target.files[0]) {
+    const file = event.target.files[0];
+
+    if (file) {
       const reader = new FileReader();
       reader.onload = (e) => setCurrentImage(e.target?.result);
       reader.readAsDataURL(event.target.files[0]);
@@ -121,9 +123,20 @@ const Edit: NextPage = () => {
                   accept="image/*"
                   id="photo"
                   className="hidden"
-                  {...register("photo", { onChange: onImageChange })}
+                  {...register("photo", {
+                    onChange: onImageChange,
+                    validate: (value) =>
+                      value[0]?.size <= 1000000 ||
+                      "Image size should be less than 1MB",
+                  })}
                 />
               </label>
+              {errors.photo && (
+                <small className="text-red-500 mb-1">
+                  {errors.photo?.message?.toString() || ""}
+                </small>
+              )}
+
               {UserFields.map((field: any) => (
                 <div
                   key={field.name}
@@ -158,7 +171,9 @@ const Edit: NextPage = () => {
               <button
                 disabled={loading}
                 className={`${
-                  loading ? "bg-blue-800" : "bg-blue-600 hover:bg-blue-800"
+                  loading
+                    ? "bg-blue-200 hover:bg-blue-400"
+                    : "bg-blue-600 hover:bg-blue-800"
                 } text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none my-3`}
               >
                 Save

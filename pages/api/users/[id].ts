@@ -97,4 +97,12 @@ const usersHandler = async (req: RequestExtends, res: NextApiResponse) => {
   }
 };
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "2mb",
+    },
+  },
+};
+
 export default usersHandler;

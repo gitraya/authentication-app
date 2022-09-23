@@ -162,7 +162,7 @@ const AuthCard: FC<AuthCardProps> = ({ isLogin = false }: AuthCardProps) => {
         disabled={loading}
         className={`${
           loading
-            ? "bg-blue-200 hover:bg-blue-400 "
+            ? "bg-blue-200 hover:bg-blue-400"
             : "bg-blue-600 hover:bg-blue-800"
         } w-full text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none mb-8`}
       >
