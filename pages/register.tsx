@@ -9,9 +9,9 @@ const Register: NextPage = () => (
     <Head>
       <title>Authentication App - Register</title>
     </Head>
-    <main className="flex flex-col min-h-screen items-center justify-center">
+    <main className="flex flex-col min-h-screen items-center justify-between sm:justify-center">
       <AuthCard />
-      <Copyright />
+      <Copyright className="sm:w-[30rem]" />
     </main>
   </Fragment>
 );

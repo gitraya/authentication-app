@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
-import { FaUserAlt } from "react-icons/fa";
+import { FaCamera } from "react-icons/fa";
 import Image from "next/image";
 import Head from "next/head";
 import { setNotification } from "../reducers/notification";
@@ -79,9 +79,9 @@ const Edit: NextPage = () => {
       </Head>
       <Navbar />
       <main className="flex flex-col items-center justify-center pb-16">
-        <div className="w-3/5 flex flex-col">
+        <div className="w-full sm:w-9/12 lg:w-3/5 flex flex-col">
           <button
-            className="w-full my-6 text-left flex items-center gap-1 text-blue-400 text-lg"
+            className="w-full my-6 px-7 sm:px-0 text-left flex items-center gap-1 text-blue-400 text-lg"
             onClick={router.back}
           >
             <span className="material-symbols-outlined text-lg">
@@ -89,32 +89,35 @@ const Edit: NextPage = () => {
             </span>
             <span>Back</span>
           </button>
-          <div className="flex flex-col border rounded-xl py-7 px-12">
+          <div className="flex flex-col sm:border rounded-xl py-7 px-7 sm:px-12">
             <div className="flex flex-col mb-4">
               <h2 className="text-2xl mb-1">Change Info</h2>
               <p className="text-xs font-medium text-gray-400">
                 Changes will be reflected to every services
               </p>
             </div>
-            <form className="w-2/3" onSubmit={handleSubmit(onSubmit)}>
+            <form className="w-full lg:w-2/3" onSubmit={handleSubmit(onSubmit)}>
               <label
                 htmlFor="photo"
                 className="flex py-3 font-medium items-center gap-7 cursor-pointer"
               >
-                {currentImage ? (
-                  <Image
-                    src={currentImage}
-                    alt="User Profile"
-                    width="64"
-                    height="64"
-                    layout="intrinsic"
-                    className="rounded-lg object-center object-cover"
-                  />
-                ) : (
-                  <div className="bg-gray-700 w-16 h-16 rounded-lg flex justify-center items-center">
-                    <FaUserAlt className="w-10 h-10 text-white" />
+                <div className="relative">
+                  {currentImage ? (
+                    <Image
+                      src={currentImage}
+                      alt="User Profile"
+                      width="64"
+                      height="64"
+                      layout="intrinsic"
+                      className="rounded-lg object-center object-cover"
+                    />
+                  ) : (
+                    <div className="bg-gray-700 w-16 h-16 rounded-lg flex justify-center items-center" />
+                  )}
+                  <div className="absolute inset-0 bg-transparent w-16 h-16 rounded-lg flex justify-center items-center">
+                    <FaCamera className="w-5 h-5 text-white" />
                   </div>
-                )}
+                </div>
                 <h3 className="uppercase text-xs text-gray-400">
                   change photo
                 </h3>
@@ -180,7 +183,7 @@ const Edit: NextPage = () => {
               </button>
             </form>
           </div>
-          <Copyright className="w-full" />
+          <Copyright />
         </div>
       </main>
     </Fragment>

@@ -9,9 +9,9 @@ const Login: NextPage = () => (
     <Head>
       <title>Authentication App - Login</title>
     </Head>
-    <main className="flex flex-col min-h-screen items-center justify-center">
+    <main className="flex flex-col min-h-screen items-center justify-between sm:justify-center">
       <AuthCard isLogin />
-      <Copyright />
+      <Copyright className="sm:w-[30rem]" />
     </main>
   </Fragment>
 );

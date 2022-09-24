@@ -28,13 +28,13 @@ const Dropdown: FC = () => {
               />
             ) : (
               <div className="bg-gray-700 w-8 h-8 rounded-md flex justify-center items-center">
-                <FaUserAlt className="w-5 h-5 text-white" />
+                <FaUserAlt className="w-3 h-3 text-white" />
               </div>
             )}
-            <span className="text-xs font-bold">
+            <span className="text-xs font-bold hidden sm:block">
               {user?.name || user?.email}
             </span>
-            <span className="material-symbols-rounded">
+            <span className="material-symbols-rounded hidden sm:block">
               arrow_drop_{open ? "up" : "down"}
             </span>
           </Menu.Button>

@@ -7,7 +7,7 @@ interface CopyrightProps {
 const Copyright: FC<CopyrightProps> = ({ className = "" }: CopyrightProps) => {
   return (
     <div
-      className={`flex justify-between w-login-card mt-3 text-sm text-gray-500 ${className}`}
+      className={`flex justify-between w-full px-7 py-5 sm:p-0 mt-3 text-sm text-gray-500 ${className}`}
     >
       <span>
         created by{" "}

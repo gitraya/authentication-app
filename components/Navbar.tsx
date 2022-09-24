@@ -4,7 +4,7 @@ import Dropdown from "./Dropdown";
 
 const Navbar: FC = () => {
   return (
-    <nav className="bg-white flex items-center justify-between w-full sticky top-0 py-6 px-20 z-10">
+    <nav className="bg-white flex items-center justify-between w-full sticky top-0 py-6 px-7 sm:px-20 z-10">
       <div className="w-36">
         <Image
           src="/devchallenges.svg"

@@ -68,7 +68,7 @@ const AuthCard: FC<AuthCardProps> = ({ isLogin = false }: AuthCardProps) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="py-10 px-14 w-login-card border rounded-3xl"
+      className="p-7 sm:py-10 sm:px-14 w-full sm:w-[30rem] sm:border rounded-3xl"
     >
       <div className="w-36 mb-7">
         <Image

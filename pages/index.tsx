@@ -26,8 +26,8 @@ const Home: NextPage = () => {
           </span>
         </div>
 
-        <div className="flex flex-col w-3/5 border rounded-xl">
-          <div className="flex items-center justify-between py-7 px-12">
+        <div className="flex flex-col w-full sm:w-9/12 md:w-3/5 sm:border rounded-xl">
+          <div className="flex items-center justify-between py-7 px-7 sm:px-12 gap-6">
             <div>
               <h2 className="text-2xl mb-1">Profile</h2>
               <p className="text-xs font-medium text-gray-400">
@@ -44,7 +44,7 @@ const Home: NextPage = () => {
             (provider) => (
               <div
                 key={provider}
-                className={`flex px-12 ${
+                className={`flex px-7 sm:px-12 ${
                   provider === "photo" ? "py-4" : "py-6"
                 } font-medium items-center border-t-2`}
               >
@@ -52,7 +52,7 @@ const Home: NextPage = () => {
                   {provider}
                 </h3>
                 {provider === "photo" ? (
-                  <div className="w-full">
+                  <div className="w-full text-right sm:text-left pl-7 sm:pl-0">
                     {user?.photoUrl ? (
                       <Image
                         src={user.photoUrl}
@@ -64,12 +64,12 @@ const Home: NextPage = () => {
                       />
                     ) : (
                       <div className="bg-gray-700 w-16 h-16 rounded-lg flex justify-center items-center">
-                        <FaUserAlt className="w-10 h-10 text-white" />
+                        <FaUserAlt className="w-6 h-6 text-white" />
                       </div>
                     )}
                   </div>
                 ) : (
-                  <span className="text-lg truncate w-full">
+                  <span className="text-lg truncate w-full text-right sm:text-left pl-7 sm:pl-0">
                     {provider === "password"
                       ? "********"
                       : user[provider] || "-"}
@@ -79,7 +79,7 @@ const Home: NextPage = () => {
             )
           )}
         </div>
-        <Copyright className="w-3/5" />
+        <Copyright className="sm:w-9/12 md:w-3/5" />
       </main>
     </Fragment>
   );
