@@ -5,7 +5,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { connectMongo } from "libs/mongo";
 import { generateAuthToken } from "libs/auth";
 import type { User } from "types/user";
-import errorHandler from "utils/errors";
 import authenticate from "libs/passport";
 import { session as sessionConfig } from "utils/configs";
 
@@ -26,7 +25,8 @@ const getHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       )
       .redirect("/");
   } catch (error: any) {
-    errorHandler(error, res);
+    console.error(error.message);
+    res.redirect("/register");
   }
 };
 
