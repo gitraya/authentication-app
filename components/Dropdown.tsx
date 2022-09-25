@@ -3,9 +3,9 @@ import { Menu, Transition } from "@headlessui/react";
 import Link from "next/link";
 import Image from "next/image";
 import { FaUserAlt } from "react-icons/fa";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { logoutUser } from "../reducers/user";
-import { RootState } from "../reducers";
+import { useAppDispatch, useAppSelector } from "hooks/redux";
+import { logoutUser } from "reducers/user";
+import { RootState } from "reducers";
 
 const Dropdown: FC = () => {
   const user = useAppSelector((state: RootState) => state.user);

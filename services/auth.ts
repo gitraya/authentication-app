@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IAuth } from "../types/token";
+import { IAuth } from "types/token";
 const baseUrl = "/api/auth";
 
 const login = async (user: IAuth) => {

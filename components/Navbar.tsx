@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Image from "next/image";
-import Dropdown from "./Dropdown";
+import Dropdown from "components/Dropdown";
 
 const Navbar: FC = () => {
   return (

@@ -1,14 +1,14 @@
 import type { NextApiResponse } from "next";
-import { connectMongo } from "../../../libs/mongo";
-import User from "../../../models/user";
-import errorHandler from "../../../utils/errors";
-import { tokenExtractor, userExtractor } from "../../../utils/auth";
-import { RequestExtends } from "../../../types/api";
+import { connectMongo } from "libs/mongo";
+import User from "models/user";
+import errorHandler, { InvalidCredentialsError } from "utils/errors";
+import { tokenExtractor, userExtractor } from "utils/auth";
+import { RequestExtends } from "types/api";
 
 const get = async (req: RequestExtends, res: NextApiResponse) => {
   try {
     if (!req.user?._id) {
-      return res.status(401).json({ error: "Not authorized!" });
+      throw new InvalidCredentialsError("Not authorized!");
     }
 
     await connectMongo();

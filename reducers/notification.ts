@@ -1,6 +1,6 @@
 import { ActionCreator, AnyAction, createSlice } from "@reduxjs/toolkit";
-import { AppDispatch } from ".";
-import { Notification } from "../types/notification";
+import { AppDispatch } from "reducers";
+import { Notification } from "types/notification";
 let timeoutId: any = 0;
 
 const notificationSlice: any = createSlice({

@@ -3,10 +3,11 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import { FieldValues, useForm } from "react-hook-form";
-import { setNotification } from "../reducers/notification";
-import { loginUser, registerUser } from "../reducers/user";
-import { useAppDispatch } from "../hooks/redux";
-import Alert from "./Alert";
+import { setNotification } from "reducers/notification";
+import { loginUser, registerUser } from "reducers/user";
+import { useAppDispatch } from "hooks/redux";
+import Alert from "components/Alert";
+import { IAuth } from "types/token";
 
 interface AuthCardProps {
   isLogin?: boolean;
@@ -25,15 +26,16 @@ const AuthCard: FC<AuthCardProps> = ({ isLogin = false }: AuthCardProps) => {
   const onSubmit = async (values: FieldValues) => {
     setLoading(true);
 
+    const userValues: IAuth = {
+      email: values.email,
+      password: values.password,
+    };
+
     try {
       if (isLogin) {
-        await dispatch(
-          loginUser({ email: values.email, password: values.password })
-        );
+        await dispatch(loginUser(userValues));
       } else {
-        await dispatch(
-          registerUser({ email: values.email, password: values.password })
-        );
+        await dispatch(registerUser(userValues));
       }
 
       dispatch(
@@ -178,8 +180,10 @@ const AuthCard: FC<AuthCardProps> = ({ isLogin = false }: AuthCardProps) => {
       <div className="mb-7 flex justify-center gap-5">
         {["Google", "Facebook", "Twitter", "Github"].map((provider) => (
           <Link
-            href="/auth/[provider]"
-            as={`/auth/${provider.toLowerCase()}`}
+            passHref
+            href={`/api/auth/${
+              isLogin ? "login" : "register"
+            }/${provider.toLowerCase()}`}
             key={provider}
           >
             <a>

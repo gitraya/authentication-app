@@ -1,13 +1,13 @@
-import "../styles/globals.css";
+import "styles/globals.css";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { Provider } from "react-redux";
 import type { AppProps } from "next/app";
-import SpinnerFullScreen from "../components/SpinnerFullScreen";
-import store from "../reducers";
-import { initializeLoginUser } from "../reducers/user";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import SpinnerFullScreen from "components/SpinnerFullScreen";
+import store from "reducers";
+import { initializeLoginUser } from "reducers/user";
+import { useAppDispatch, useAppSelector } from "hooks/redux";
 
 const queryClient = new QueryClient();
 

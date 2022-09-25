@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
-import AuthCard from "../components/AuthCard";
-import Copyright from "../components/Copyright";
+import AuthCard from "components/AuthCard";
+import Copyright from "components/Copyright";
 
 const Login: NextPage = () => (
   <Fragment>

@@ -4,10 +4,10 @@ import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import { FaUserAlt } from "react-icons/fa";
-import { useAppSelector } from "../hooks/redux";
-import { RootState } from "../reducers";
-import Copyright from "../components/Copyright";
-import Navbar from "../components/Navbar";
+import { useAppSelector } from "hooks/redux";
+import { RootState } from "reducers";
+import Copyright from "components/Copyright";
+import Navbar from "components/Navbar";
 
 const Home: NextPage = () => {
   const user = useAppSelector((state: RootState) => state.user);

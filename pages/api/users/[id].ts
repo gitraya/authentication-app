@@ -1,16 +1,20 @@
 import bcrypt from "bcrypt";
 import type { NextApiResponse } from "next";
-import { connectMongo } from "../../../libs/mongo";
-import User from "../../../models/user";
-import { RequestExtends } from "../../../types/api";
-import { tokenExtractor, userExtractor } from "../../../utils/auth";
-import errorHandler from "../../../utils/errors";
-import { uploadImage } from "../../../services/cloudinary";
+import { connectMongo } from "libs/mongo";
+import User from "models/user";
+import { RequestExtends } from "types/api";
+import { tokenExtractor, userExtractor } from "utils/auth";
+import errorHandler, {
+  InvalidCredentialsError,
+  NotFoundError,
+} from "utils/errors";
+import { uploadImage } from "services/cloudinary";
+import validator from "utils/validator";
 
 const put = async (req: RequestExtends, res: NextApiResponse) => {
   try {
     if (!req.user?._id || req.user._id.toString() !== req.query.id) {
-      return res.status(401).json({ error: "Not authorized!" });
+      throw new InvalidCredentialsError("Not authorized!");
     }
 
     await connectMongo();
@@ -19,26 +23,14 @@ const put = async (req: RequestExtends, res: NextApiResponse) => {
     let user = await User.findById(id);
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      throw new NotFoundError("User not found");
     }
 
     if (req.body.password) {
       const password = req.body.password as string;
       delete req.body.password;
-      const passwordPattern =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-      if (password.length < 6) {
-        return res
-          .status(400)
-          .json({ error: "Password must be at least 6 characters" });
-      }
 
-      if (!passwordPattern.test(password)) {
-        return res.status(400).json({
-          error:
-            "Password must contain at least one lowercase letter, one uppercase letter, one number and one special character",
-        });
-      }
+      validator.checkPassword(password);
 
       const passwordHash = await bcrypt.hash(password, 10);
       req.body.passwordHash = passwordHash;
@@ -65,7 +57,7 @@ const put = async (req: RequestExtends, res: NextApiResponse) => {
 const get = async (req: RequestExtends, res: NextApiResponse) => {
   try {
     if (!req.user?._id) {
-      return res.status(401).json({ error: "Not authorized!" });
+      throw new InvalidCredentialsError("Not authorized!");
     }
 
     await connectMongo();
@@ -74,7 +66,7 @@ const get = async (req: RequestExtends, res: NextApiResponse) => {
     const user = await User.findById(id);
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      throw new NotFoundError("User not found");
     }
 
     res.status(200).json(user);

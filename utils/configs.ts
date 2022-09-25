@@ -1,4 +1,4 @@
-export const UserFields: any[] = [
+export const userFields: any[] = [
   {
     name: "name",
     validation: {
@@ -52,3 +52,9 @@ export const UserFields: any[] = [
     },
   },
 ];
+
+export const session = {
+  secret: process.env.SESSION_SECRET || "secret",
+  resave: false,
+  saveUninitialized: false,
+};

@@ -1,6 +1,6 @@
-import { useAppSelector } from "../hooks/redux";
-import { RootState } from "../reducers";
-import { Notification } from "../types/notification";
+import { useAppSelector } from "hooks/redux";
+import { RootState } from "reducers";
+import { Notification } from "types/notification";
 
 const Alert = () => {
   const notification: Notification = useAppSelector(

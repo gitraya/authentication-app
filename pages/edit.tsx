@@ -5,14 +5,14 @@ import { useForm } from "react-hook-form";
 import { FaCamera } from "react-icons/fa";
 import Image from "next/image";
 import Head from "next/head";
-import { setNotification } from "../reducers/notification";
-import { updateUser } from "../reducers/user";
-import { RootState } from "../reducers";
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { UserFields } from "../utils/configs";
-import Copyright from "../components/Copyright";
-import Navbar from "../components/Navbar";
-import Alert from "../components/Alert";
+import { setNotification } from "reducers/notification";
+import { updateUser } from "reducers/user";
+import { RootState } from "reducers";
+import { useAppDispatch, useAppSelector } from "hooks/redux";
+import { userFields } from "utils/configs";
+import Copyright from "components/Copyright";
+import Navbar from "components/Navbar";
+import Alert from "components/Alert";
 
 const Edit: NextPage = () => {
   const {
@@ -140,7 +140,7 @@ const Edit: NextPage = () => {
                 </small>
               )}
 
-              {UserFields.map((field: any) => (
+              {userFields.map((field: any) => (
                 <div
                   key={field.name}
                   className="flex flex-col py-3 font-medium"

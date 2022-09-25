@@ -1,12 +1,15 @@
-import bcrypt from "bcrypt";
+import nextConnect from "next-connect";
+import passport from "passport";
+import session from "express-session";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { connectMongo } from "libs/mongo";
 import { generateAuthToken } from "libs/auth";
-import User from "models/user";
+import type { User } from "types/user";
 import errorHandler, { ValidationError } from "utils/errors";
-import validator from "utils/validator";
+import authenticate from "libs/passport";
+import { session as sessionConfig } from "utils/configs";
 
-const post = async (req: NextApiRequest, res: NextApiResponse) => {
+const postHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await connectMongo();
 
@@ -16,17 +19,13 @@ const post = async (req: NextApiRequest, res: NextApiResponse) => {
       throw new ValidationError("Email and password are required");
     }
 
-    validator.checkPassword(password);
+    if (password.length < 6) {
+      throw new ValidationError("Password must be at least 6 characters");
+    }
 
-    const passwordHash = await bcrypt.hash(password, 10);
-
-    const user: any = new User({
-      email,
-      passwordHash,
-    });
-    await user.save();
-
+    const user: User = await authenticate("local", req, res);
     const token = await generateAuthToken(user);
+
     res
       .status(201)
       .setHeader(
@@ -41,13 +40,7 @@ const post = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-const registerHandler = (req: NextApiRequest, res: NextApiResponse) => {
-  switch (req.method) {
-    case "POST":
-      return post(req, res);
-    default:
-      return res.status(405).json({ error: "Method not allowed" });
-  }
-};
-
-export default registerHandler;
+export default nextConnect()
+  .use(passport.initialize())
+  .use(session(sessionConfig))
+  .post(postHandler);

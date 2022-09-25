@@ -1,5 +1,5 @@
 import { NextApiRequest } from "next";
-import { User } from "./user";
+import { User } from "types/user";
 
 interface RequestExtends extends NextApiRequest {
   token?: string;

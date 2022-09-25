@@ -1,8 +1,8 @@
 import { NextApiResponse } from "next";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import User from "../models/user";
-import { TokenPayload } from "../types/token";
-import { RequestExtends } from "../types/api";
+import User from "models/user";
+import { TokenPayload } from "types/token";
+import { RequestExtends } from "types/api";
 
 const tokenExtractor: any = (
   request: RequestExtends,

@@ -1,9 +1,9 @@
 import { ActionCreator, createSlice, AnyAction } from "@reduxjs/toolkit";
 import { deleteCookie, getCookie } from "cookies-next";
-import userService from "../services/users";
-import authService from "../services/auth";
-import { IAuth } from "../types/token";
-import { AppDispatch, RootState } from ".";
+import userService from "services/users";
+import authService from "services/auth";
+import { IAuth } from "types/token";
+import { AppDispatch, RootState } from "reducers";
 
 const userSlice = createSlice({
   name: "user",

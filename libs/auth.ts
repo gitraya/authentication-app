@@ -1,4 +1,4 @@
-import type { User } from "../types/user";
+import type { User } from "types/user";
 import jwt from "jsonwebtoken";
 
 const generateAuthToken = (user: User) => {
