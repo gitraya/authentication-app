@@ -181,9 +181,7 @@ const AuthCard: FC<AuthCardProps> = ({ isLogin = false }: AuthCardProps) => {
         {["Google", "Facebook", "Twitter", "Github"].map((provider) => (
           <Link
             passHref
-            href={`/api/auth/${
-              isLogin ? "login" : "register"
-            }/${provider.toLowerCase()}`}
+            href={`/api/auth/login/${provider.toLowerCase()}`}
             key={provider}
           >
             <a>

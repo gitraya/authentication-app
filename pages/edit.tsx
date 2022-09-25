@@ -129,6 +129,7 @@ const Edit: NextPage = () => {
                   {...register("photo", {
                     onChange: onImageChange,
                     validate: (value) =>
+                      !value[0] ||
                       value[0]?.size <= 1000000 ||
                       "Image size should be less than 1MB",
                   })}

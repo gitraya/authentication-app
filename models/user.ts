@@ -36,7 +36,6 @@ const userSchema = new mongoose.Schema<IUser>({
   },
   passwordHash: {
     type: String,
-    required: [true, "Password is required"],
   },
   photoUrl: {
     type: String,

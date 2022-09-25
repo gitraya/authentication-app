@@ -45,10 +45,18 @@ export const googleStrategy = new Google.Strategy(
   async (issuer: any, profile: any, done: any) => {
     try {
       const email = profile?.emails[0]?.value || "";
-      const user: UserType = await User.findOne({ email }).exec();
+      let user: UserType = await User.findOne({ email }).exec();
 
       if (user) {
         return done(null, user);
+      } else if (email) {
+        const newUser = new User({
+          email,
+          name: profile.displayName,
+        });
+        await newUser.save();
+
+        return done(null, newUser);
       }
 
       done(new NotFoundError("User not found"));
