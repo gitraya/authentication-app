@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getCookie } from "cookies-next";
+import { ModelUser } from "types/user";
 const baseUrl = "/api/users";
 
 const get = async (id: string) => {
@@ -9,7 +10,7 @@ const get = async (id: string) => {
   return response.data;
 };
 
-const update = async (id: string, user: any) => {
+const update = async (id: string, user: ModelUser) => {
   const response = await axios.put(`${baseUrl}/${id}`, user, {
     headers: { Authorization: `Bearer ${getCookie("token")}` },
   });

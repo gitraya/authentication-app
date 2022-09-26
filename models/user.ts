@@ -1,16 +1,8 @@
 import mongoose from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
+import { ModelUser } from "types/user";
 
-interface IUser {
-  name?: string;
-  phone?: string;
-  email: string;
-  passwordHash: string;
-  photoUrl?: string;
-  bio?: string;
-}
-
-const userSchema = new mongoose.Schema<IUser>({
+const userSchema = new mongoose.Schema<ModelUser>({
   name: {
     type: String,
     minlength: [3, "Name must be at least 3 characters long"],

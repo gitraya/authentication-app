@@ -8,12 +8,13 @@ import type { User } from "types/user";
 import errorHandler, { ValidationError } from "utils/errors";
 import authenticate from "libs/passport";
 import { session as sessionConfig } from "utils/configs";
+import { IAuth } from "types/token";
 
 const postHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await connectMongo();
 
-    const { email, password } = req.body;
+    const { email, password } = req.body as IAuth;
 
     if (!password || !email) {
       throw new ValidationError("Email and password are required");
@@ -24,7 +25,7 @@ const postHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const user: User = await authenticate("local", req, res);
-    const token = await generateAuthToken(user);
+    const token: string = await generateAuthToken(user);
 
     res
       .status(201)

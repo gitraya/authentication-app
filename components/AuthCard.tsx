@@ -13,7 +13,7 @@ interface AuthCardProps {
   isLogin?: boolean;
 }
 
-const AuthCard: FC<AuthCardProps> = ({ isLogin = false }: AuthCardProps) => {
+const AuthCard: FC<AuthCardProps> = ({ isLogin = false }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);

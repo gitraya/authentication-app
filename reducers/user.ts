@@ -1,11 +1,11 @@
-import { ActionCreator, createSlice, AnyAction } from "@reduxjs/toolkit";
+import { createSlice, Slice } from "@reduxjs/toolkit";
 import { deleteCookie, getCookie } from "cookies-next";
 import userService from "services/users";
 import authService from "services/auth";
 import { IAuth } from "types/token";
-import { AppDispatch, RootState } from "reducers";
+import { AppThunk } from "reducers";
 
-const userSlice = createSlice({
+const userSlice: Slice = createSlice({
   name: "user",
   initialState: null,
   reducers: {
@@ -15,8 +15,8 @@ const userSlice = createSlice({
 
 export const { setUser } = userSlice.actions;
 
-export const initializeLoginUser: ActionCreator<AnyAction> = () => {
-  return async (dispatch: AppDispatch, getState: RootState) => {
+export const initializeLoginUser: AppThunk = () => {
+  return async (dispatch, getState) => {
     const token = getCookie("token");
 
     if (token && typeof token === "string") {
@@ -45,8 +45,8 @@ export const initializeLoginUser: ActionCreator<AnyAction> = () => {
   };
 };
 
-export const registerUser: ActionCreator<AnyAction> = (user: IAuth) => {
-  return async (dispatch: AppDispatch) => {
+export const registerUser: AppThunk = (user: IAuth) => {
+  return async (dispatch) => {
     try {
       const response = await authService.register(user);
 
@@ -57,8 +57,8 @@ export const registerUser: ActionCreator<AnyAction> = (user: IAuth) => {
   };
 };
 
-export const loginUser: ActionCreator<AnyAction> = (user: IAuth) => {
-  return async (dispatch: AppDispatch) => {
+export const loginUser: AppThunk = (user: IAuth) => {
+  return async (dispatch) => {
     try {
       const response = await authService.login(user);
 
@@ -73,15 +73,15 @@ export const loginUser: ActionCreator<AnyAction> = (user: IAuth) => {
   };
 };
 
-export const logoutUser: ActionCreator<AnyAction> = () => {
-  return (dispatch: AppDispatch) => {
+export const logoutUser: AppThunk = () => {
+  return (dispatch) => {
     deleteCookie("token");
     dispatch(setUser(null));
   };
 };
 
-export const updateUser: ActionCreator<AnyAction> = (id: string, user: any) => {
-  return async (dispatch: AppDispatch) => {
+export const updateUser: AppThunk = (id: string, user: any) => {
+  return async (dispatch) => {
     try {
       const response = await userService.update(id, user);
 

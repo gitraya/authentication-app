@@ -1,7 +1,7 @@
-import type { User } from "types/user";
 import jwt from "jsonwebtoken";
+import { GenerateAuthToken } from "types/token";
 
-const generateAuthToken = (user: User) => {
+const generateAuthToken: GenerateAuthToken = (user) => {
   const payload = {
     id: user._id,
     email: user.email,

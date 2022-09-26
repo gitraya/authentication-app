@@ -1,9 +1,10 @@
+import { FC } from "react";
 import { useAppSelector } from "hooks/redux";
 import { RootState } from "reducers";
 import { Notification } from "types/notification";
 
-const Alert = () => {
-  const notification: Notification = useAppSelector(
+const Alert: FC = () => {
+  const notification = useAppSelector<Notification>(
     (state: RootState) => state.notification
   );
 

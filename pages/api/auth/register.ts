@@ -18,7 +18,7 @@ const post = async (req: NextApiRequest, res: NextApiResponse) => {
 
     validator.checkPassword(password);
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    const passwordHash: string = await bcrypt.hash(password, 10);
 
     const user: any = new User({
       email,
@@ -26,7 +26,7 @@ const post = async (req: NextApiRequest, res: NextApiResponse) => {
     });
     await user.save();
 
-    const token = await generateAuthToken(user);
+    const token: string = await generateAuthToken(user);
     res
       .status(201)
       .setHeader(

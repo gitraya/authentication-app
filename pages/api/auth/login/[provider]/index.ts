@@ -7,12 +7,17 @@ import { generateAuthToken } from "libs/auth";
 import type { User } from "types/user";
 import authenticate from "libs/passport";
 import { session as sessionConfig } from "utils/configs";
+import { Method } from "types/passport";
 
 const getHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await connectMongo();
 
-    const user: User = await authenticate(req.query.provider, req, res);
+    const user: User = await authenticate(
+      req.query.provider as Method,
+      req,
+      res
+    );
     const token = await generateAuthToken(user);
 
     res

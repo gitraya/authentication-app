@@ -4,7 +4,7 @@ interface CopyrightProps {
   className?: string;
 }
 
-const Copyright: FC<CopyrightProps> = ({ className = "" }: CopyrightProps) => {
+const Copyright: FC<CopyrightProps> = ({ className = "" }) => {
   return (
     <div
       className={`flex justify-between w-full px-7 py-5 sm:p-0 mt-3 text-sm text-gray-500 ${className}`}

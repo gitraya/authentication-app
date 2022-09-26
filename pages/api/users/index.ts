@@ -4,6 +4,7 @@ import User from "models/user";
 import errorHandler, { InvalidCredentialsError } from "utils/errors";
 import { tokenExtractor, userExtractor } from "utils/auth";
 import { RequestExtends } from "types/api";
+import { User as UserType } from "types/user";
 
 const get = async (req: RequestExtends, res: NextApiResponse) => {
   try {
@@ -12,7 +13,7 @@ const get = async (req: RequestExtends, res: NextApiResponse) => {
     }
 
     await connectMongo();
-    const users = await User.find({});
+    const users: UserType[] = await User.find({});
     return res.status(200).json(users);
   } catch (error: any) {
     errorHandler(error, res);

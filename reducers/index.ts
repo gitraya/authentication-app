@@ -9,7 +9,11 @@ const store: Store = configureStore({
   },
 });
 
+export type AppThunk = (
+  ...args: any[]
+) => (dispatch: AppDispatch, getState?: RootState) => void;
+export type AnyPromise = (...args: any[]) => Promise<any> | any;
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = typeof store.dispatch | AnyPromise;
 
 export default store;

@@ -1,4 +1,3 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 import passport from "passport";
 import Local from "passport-local";
@@ -6,7 +5,7 @@ import Google from "passport-google-oidc";
 import Facebook from "passport-facebook";
 import Github from "passport-github2";
 import Twitter from "passport-twitter";
-import type { Method } from "types/passport";
+import type { Authenticate } from "types/passport";
 import User from "models/user";
 import { User as UserType } from "types/user";
 import { InvalidCredentialsError } from "utils/errors";
@@ -119,11 +118,7 @@ const twitterStrategy = new Twitter.Strategy(
   }
 );
 
-const authenticate: any = (
-  method: Method,
-  request: NextApiRequest,
-  response: NextApiResponse
-) =>
+const authenticate: Authenticate = (method, request, response) =>
   new Promise((resolve, reject) => {
     passport.authenticate(
       method,

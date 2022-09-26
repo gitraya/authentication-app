@@ -1,11 +1,8 @@
 import User from "models/user";
-import { User as UserType } from "types/user";
+import type { GetOrCreateUser, User as UserType } from "types/user";
 import { NotFoundError } from "utils/errors";
 
-export const getOrCreateUser: (
-  email: string,
-  name: string
-) => Promise<UserType> = async (email, name) => {
+export const getOrCreateUser: GetOrCreateUser = async (email, name) => {
   try {
     let user: UserType = await User.findOne({ email }).exec();
 

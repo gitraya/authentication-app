@@ -10,6 +10,7 @@ import errorHandler, {
 } from "utils/errors";
 import { uploadImage } from "services/cloudinary";
 import validator from "utils/validator";
+import { User as UserType } from "types/user";
 
 const put = async (req: RequestExtends, res: NextApiResponse) => {
   try {
@@ -20,7 +21,7 @@ const put = async (req: RequestExtends, res: NextApiResponse) => {
     await connectMongo();
 
     const id = req.query.id as string;
-    let user = await User.findById(id);
+    let user: UserType | null = await User.findById(id);
 
     if (!user) {
       throw new NotFoundError("User not found");
@@ -32,7 +33,7 @@ const put = async (req: RequestExtends, res: NextApiResponse) => {
 
       validator.checkPassword(password);
 
-      const passwordHash = await bcrypt.hash(password, 10);
+      const passwordHash: string = await bcrypt.hash(password, 10);
       req.body.passwordHash = passwordHash;
     }
 
@@ -63,7 +64,7 @@ const get = async (req: RequestExtends, res: NextApiResponse) => {
     await connectMongo();
 
     const id = req.query.id as string;
-    const user = await User.findById(id);
+    const user: UserType | null = await User.findById(id);
 
     if (!user) {
       throw new NotFoundError("User not found");
